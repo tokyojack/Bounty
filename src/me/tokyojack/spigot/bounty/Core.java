@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import me.tokyojack.spigot.bounty.commands.Bounty;
+import me.tokyojack.spigot.bounty.commands.subcommands.Add;
+import me.tokyojack.spigot.bounty.commands.subcommands.Top;
 import me.tokyojack.spigot.bounty.listeners.BountyClaim;
 import me.tokyojack.spigot.bounty.managers.BountyManager;
 import me.tokyojack.spigot.bounty.utils.Gependecy;
