@@ -28,11 +28,12 @@ public class Core extends JavaPlugin {
 
 	public void onEnable() {
 		plugin = this;
+		
 		this.bountyManager = new BountyManager();
 
 		new SubKommandManager(new Bounty(), false).addSubCommand(new Add()).addSubCommand(new Top()).build();
+		
 		new PlayerKilledPlayerEvent().registerListener(this);
-
 		Multipage.registerListener(this);
 
 		PluginManager pluginManager = getServer().getPluginManager();

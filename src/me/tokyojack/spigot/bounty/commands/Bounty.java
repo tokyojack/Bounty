@@ -21,7 +21,7 @@ import me.tokyojack.spigot.bounty.utils.multipage.Multipage;
 public class Bounty extends Kommand {
 
 	public Bounty() {
-		super("Bounty command", new ArrayList<String>(Arrays.asList("bounties")));
+		super("Bounty command", Arrays.asList("bounties"));
 	}
 
 	@Override
@@ -34,14 +34,20 @@ public class Bounty extends Kommand {
 
 		Map<UUID, Integer> bounties = Core.getPlugin().getBountyManager().getBountyPlayers();
 
+		// Get's all the bounties and streams it
+		// Get's all the UUID's from the HashMap (keyset)
+		// Creates a SKULL_ITEM ItemStack with the head data being the player with the UUID
+		// Sets the item's name to the player's name
+		// Get's the players bounty with a ".get()" on "bounties"
 		List<ItemStack> bountiesItems = bounties.keySet().stream()
 				.map(uuid -> new ItemBuilder(Material.SKULL_ITEM).setHead(Bukkit.getOfflinePlayer(uuid).getName())
 						.setName(Bukkit.getOfflinePlayer(uuid).getName() + " &c$" + bounties.get(uuid)).toItemStack())
 				.collect(Collectors.toList());
 
+		// Opens up the multipage inventory with the bounty items
 		new Multipage("Bounties: Pg %page%", bountiesItems).openInventory(((Player) commandSender));
 
-		return false;
+		return true;
 	}
 
 }

@@ -22,28 +22,31 @@ public class Add extends SubKommand {
 
 	@Override
 	public boolean execute(CommandSender commandSender, String[] args) {
-		if (args.length == 0) {
+		if (args.length <= 0) {
 			commandSender.sendMessage("/bounty add <amount> <player>");
 			return false;
 		}
 
-		if (!isNumber(args[0])) {
+		String addingAmount = args[0];
+		
+		if (!isNumber(addingAmount)) {
 			commandSender.sendMessage("You must put a number for the amount.");
 			return false;
 		}
 
-		int amount = Integer.parseInt(args[0]);
+		int amount = Integer.parseInt(addingAmount);
 
 		if (amount <= 0) {
 			commandSender.sendMessage(Chat.color("The number must be over 0"));
 			return false;
 		}
 
-		UUID targetedPlayerUUID = getUUIDFromPlayername(args[1]);
+		String playerName = args[1];
+		UUID targetedPlayerUUID = getUUIDFromPlayername(playerName);
 
 		BountyManager bountyManager = Core.getPlugin().getBountyManager();
 
-		if ((!bountyManager.hasBounty(targetedPlayerUUID)) && Bukkit.getPlayer(args[1]) == null) {
+		if ((!bountyManager.hasBounty(targetedPlayerUUID)) && Bukkit.getPlayer(playerName) == null) {
 			commandSender.sendMessage("That player must be online to add a bounty!");
 			return false;
 		}

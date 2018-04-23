@@ -1,3 +1,5 @@
+package me.tokyojack.spigot.bounty;
+
 package me.tokyojack.spigot.bounty.commands.subcommands;
 
 import java.util.Arrays;
@@ -29,37 +31,32 @@ public class Top extends SubKommand {
 
 		LinkedHashMap<UUID, Integer> bountyPlayers = Core.getPlugin().getBountyManager().getBountyPlayers();
 
-		Object[] a = bountyPlayers.entrySet().toArray();
-		Arrays.sort(a, new Comparator() {
+		// Sorts by the highest
+		Object[] organizedBounties = bountyPlayers.entrySet().toArray();
+		Arrays.sort(organizedBounties, new Comparator() {
 			public int compare(Object o1, Object o2) {
 				return ((Map.Entry<UUID, Integer>) o2).getValue().compareTo(((Map.Entry<UUID, Integer>) o1).getValue());
 			}
 		});
 
-		if (commandSender instanceof Player) {
-			Player player = (Player) commandSender;
+		Inventory inv = Bukkit.createInventory(null, 9, ChatColor.DARK_GREEN + "Top 9");
 
-			Inventory inv = Bukkit.createInventory(null, 9, ChatColor.DARK_GREEN + "Top 9");
+		for (int i = 0; i < organizedBounties.length; i++) {
+			String name = Bukkit.getOfflinePlayer(((Map.Entry<UUID, Integer>) a[i]).getKey()).getName();
+			int amount = ((Map.Entry<UUID, Integer>) a[i]).getValue();
 
-			for (int i = 0; i < a.length; i++) {
-				String name = Bukkit.getOfflinePlayer(((Map.Entry<UUID, Integer>) a[i]).getKey()).getName();
-				int amount = ((Map.Entry<UUID, Integer>) a[i]).getValue();
+			if (commandSender instanceof Player) {
+				Player player = (Player) commandSender;
 
 				inv.addItem(new ItemBuilder(Material.SKULL_ITEM).setHead(name).setName(name + " | " + amount)
 						.toItemStack());
-			}
-
-			player.openInventory(inv);
-		} else {
-			// Yes its the same for loop, but it'll look much nicer like this
-			// than cramming it into one
-			for (int i = 0; i < a.length; i++) {
-				String name = Bukkit.getOfflinePlayer(((Map.Entry<UUID, Integer>) a[i]).getKey()).getName();
-				int amount = ((Map.Entry<UUID, Integer>) a[i]).getValue();
-
+			} else {
 				commandSender.sendMessage(name + " | " + amount);
 			}
 		}
+
+		if (commandSender instanceof Player)
+			player.openInventory(inv);
 
 		return true;
 	}

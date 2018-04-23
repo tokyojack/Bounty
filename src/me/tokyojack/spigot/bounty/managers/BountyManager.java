@@ -18,6 +18,8 @@ public class BountyManager {
 	}
 
 	public void addBounty(UUID playerUUID, int amount) {
+		
+		// If the player already has a bounty, adds that value to it
 		if (bountyPlayers.containsKey(playerUUID)) {
 			int pastAmount = this.bountyPlayers.get(playerUUID);
 			this.bountyPlayers.put(playerUUID, pastAmount + amount);
@@ -41,14 +43,14 @@ public class BountyManager {
 		this.bountyPlayers.remove(player.getUniqueId());
 	}
 
+	// Just for testing out the scrolling and what not
 	public void test() {
 		for (int i = 0; i < 20; i++) {
 			this.bountyPlayers.put(UUID.randomUUID(), RandomNumber(1000));
 		}
 	}
 
-	private int RandomNumber(int s) {
-		Random random = new Random();
-		return random.nextInt(s) + 1;
+	private int RandomNumber(int randomNumber) {
+		return new Random().nextInt(randomNumber) + 1;
 	}
 }
